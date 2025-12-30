@@ -9,10 +9,12 @@
     app_user: geoserver
 
   roles:
-    # - apt
+    - apt
     - user-geoserver
     - nginx
     - nginx-https
+    - tomcat
+    - geoserver
 
   handlers:
     - import_tasks: ./handlers/nginx.yaml
