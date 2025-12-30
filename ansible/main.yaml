@@ -1,5 +1,5 @@
 ---
-- name: Deploy Nginx Configuration
+- name: Deploy Geoserver
   hosts: vm
   become: yes
 
