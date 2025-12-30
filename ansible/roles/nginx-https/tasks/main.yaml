@@ -1,3 +1,20 @@
+- name: Deploy the HTTPS config
+  become: true
+  ansible.builtin.template:
+    src: https.conf.j2
+    dest: "/etc/nginx/sites-available/https_config"
+    owner: root
+    group: root
+    mode: '0640'
+
+- name: Enable nginx site
+  become: true
+  ansible.builtin.file:
+    src: "/etc/nginx/sites-available/https_config"
+    dest: "/etc/nginx/sites-enabled/https_config"
+    state: link
+  notify: nginx changed
+
 - name: Remove default site symlink
   ansible.builtin.file:
     path: /etc/nginx/sites-enabled/default
@@ -53,19 +70,4 @@
   notify: nginx changed
 
 
-- name: Deploy the HTTPS config
-  become: true
-  ansible.builtin.template:
-    src: https.conf.j2
-    dest: "/etc/nginx/sites-available/https_config"
-    owner: root
-    group: root
-    mode: '0644'
 
-- name: Enable nginx site
-  become: true
-  ansible.builtin.file:
-    src: "/etc/nginx/sites-available/https_config"
-    dest: "/etc/nginx/sites-enabled/https_config"
-    state: link
-  notify: nginx changed
