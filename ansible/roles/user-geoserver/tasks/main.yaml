@@ -1,0 +1,17 @@
+- name: Ensure app_user user exists
+  ansible.builtin.user:
+    name: "{{ app_user }}"
+    state: present
+    create_home: true
+
+- name: Ensure app_user group exists
+  ansible.builtin.group:
+    name: "{{ app_user }}"
+    state: present
+
+- name: Ensure app_user user exists
+  ansible.builtin.user:
+    name: "{{ app_user }}"
+    group: "{{ app_user }}"
+    state: present
+    create_home: true

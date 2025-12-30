@@ -1,0 +1,37 @@
+---
+- name: Remove default site config
+  file:
+    path: "/etc/nginx/sites-enabled/default"
+    state: absent
+  notify: nginx changed
+
+- name: Remove default site from sites-available
+  file:
+    path: "/etc/nginx/sites-available/default"
+    state: absent
+  ignore_errors: true
+  notify: nginx changed
+
+- name: Create webroot directory for Let's Encrypt
+  ansible.builtin.file:
+    path: /var/www/letsencrypt
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: '0755'
+  notify: nginx changed
+
+- name: Deploy website site config
+  template:
+    src: website.conf.j2
+    dest: /etc/nginx/sites-available/website.conf
+  notify: nginx changed
+
+- name: Enable website config (symlink)
+  file:
+    src: /etc/nginx/sites-available/website.conf
+    dest: /etc/nginx/sites-enabled/website.conf
+    state: link
+  notify: nginx changed
+
+

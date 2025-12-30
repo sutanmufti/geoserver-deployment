@@ -1,0 +1,11 @@
+- name: validate nginx configuration
+  listen: nginx changed
+  command: nginx -t
+  register: nginx_test
+  changed_when: false
+  failed_when: nginx_test.rc != 0
+
+- name: reload nginx
+  listen: nginx changed
+  command: nginx -s reload
+  when: nginx_test.rc == 0

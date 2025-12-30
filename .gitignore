@@ -1,0 +1,66 @@
+# ============================================
+# Terraform
+# ============================================
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# Crash logs
+crash.log
+crash.*.log
+
+# Exclude override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Terraform variable files (sensitive)
+*.tfvars
+*.tfvars.json
+
+# Terraform plan files
+*.plan
+
+# Terraform lock file (can be committed for stable provider versions, but commonly ignored)
+.terraform.lock.hcl
+
+# Backup files
+*.backup
+*.bak
+
+# ============================================
+# Ansible
+# ============================================
+# SSH & Private keys
+*.pem
+*.key
+*.pub
+id_rsa
+id_rsa.pub
+
+# Inventory files with sensitive data
+inventory
+hosts
+
+# Ansible Vault password file
+.vault_pass.txt
+.vault-key
+
+# Logs
+*.log
+
+# Python Cache if using Ansible playbooks with modules
+__pycache__/
+*.pyc
+
+# ============================================
+# General
+# ============================================
+.DS_Store
+*.swp
+*.tmp
+*.retry

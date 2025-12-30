@@ -1,0 +1,11 @@
+---
+- name: test nginx
+  command: nginx -t
+  notify: reload nginx
+  listen: test nginx
+
+- name: reload nginx
+  service:
+    name: nginx
+    state: reloaded
+  listen: reload nginx
