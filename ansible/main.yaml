@@ -10,9 +10,9 @@
 
   roles:
     # - apt
-    # - user-geoserver
+    - user-geoserver
     - nginx
-    # - nginx-https
+    - nginx-https
 
   handlers:
     - import_tasks: ./handlers/nginx.yaml
