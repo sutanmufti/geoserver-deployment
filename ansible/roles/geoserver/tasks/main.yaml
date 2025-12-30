@@ -1,0 +1,50 @@
+---
+- name: Ensure unzip package is installed
+  apt:
+    name: unzip
+    state: present
+    update_cache: yes
+
+- name: Download GeoServer WAR zip
+  get_url:
+    url: "{{ geoserver_war_url }}"
+    dest: "/tmp/geoserver.zip"
+    force: no
+
+- name: Create temporary extraction directory
+  file:
+    path: "/tmp/geoserver_war_unzip"
+    state: directory
+    mode: '0755'
+
+- name: Unzip GeoServer WAR file
+  unarchive:
+    src: "/tmp/geoserver.zip"
+    dest: "/tmp/geoserver_war_unzip"
+    remote_src: yes
+
+- name: Deploy GeoServer WAR to Tomcat
+  copy:
+    src: "/tmp/geoserver_war_unzip/geoserver.war"
+    dest: "{{ geoserver_install_dir }}/geoserver.war"
+    owner: "{{ tomcat_user }}"
+    group: "{{ tomcat_group }}"
+    mode: "0644"
+    remote_src: yes
+  notify: Restart Tomcat
+
+- name: Copy Geoserver Config 
+  ansible.builtin.template:
+    src: global.xml.j2
+    dest: "/opt/tomcat/latest/webapps/geoserver/data/global.xml"
+    owner: tomcat
+    group: tomcat
+  notify: Restart Tomcat
+
+- name: Copy Geoserver Config 
+  ansible.builtin.template:
+    src: web.xml.j2
+    dest: "/opt/tomcat/latest/webapps/geoserver/WEB-INF/web.xml"
+    owner: tomcat
+    group: tomcat
+  notify: Restart Tomcat
