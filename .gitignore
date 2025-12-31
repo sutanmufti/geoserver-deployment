@@ -56,7 +56,7 @@ hosts
 # Python Cache if using Ansible playbooks with modules
 __pycache__/
 *.pyc
-
+.lock
 # ============================================
 # General
 # ============================================
