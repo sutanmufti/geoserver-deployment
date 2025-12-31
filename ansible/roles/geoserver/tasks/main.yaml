@@ -1,29 +1,39 @@
 ---
 - name: Ensure unzip package is installed
+  tags:
+    - geoserver
   apt:
     name: unzip
     state: present
     update_cache: yes
 
 - name: Download GeoServer WAR zip
+  tags:
+    - geoserver
   get_url:
     url: "{{ geoserver_war_url }}"
     dest: "/tmp/geoserver.zip"
     force: no
 
 - name: Create temporary extraction directory
+  tags:
+    - geoserver
   file:
     path: "/tmp/geoserver_war_unzip"
     state: directory
     mode: '0755'
 
 - name: Unzip GeoServer WAR file
+  tags:
+    - geoserver
   unarchive:
     src: "/tmp/geoserver.zip"
     dest: "/tmp/geoserver_war_unzip"
     remote_src: yes
 
 - name: Deploy GeoServer WAR to Tomcat
+  tags:
+    - geoserver
   copy:
     src: "/tmp/geoserver_war_unzip/geoserver.war"
     dest: "{{ geoserver_install_dir }}/geoserver.war"
@@ -34,12 +44,16 @@
   notify: Restart Tomcat
 
 - name: Restart Tomcat service
+  tags:
+    - geoserver
   ansible.builtin.systemd:
     name: tomcat
     state: restarted
     enabled: yes
 
 - name: Copy Geoserver Config 
+  tags:
+    - geoserver
   ansible.builtin.template:
     src: global.xml.j2
     dest: "/opt/tomcat/latest/webapps/geoserver/data/global.xml"
@@ -48,6 +62,8 @@
   notify: Restart Tomcat
 
 - name: Copy Geoserver Config 
+  tags:
+    - geoserver
   ansible.builtin.template:
     src: web.xml.j2
     dest: "/opt/tomcat/latest/webapps/geoserver/WEB-INF/web.xml"
@@ -58,11 +74,15 @@
     - nginx changed
 
 - name: validate nginx configuration
+  tags:
+    - geoserver
   command: nginx -t
   register: nginx_test
   changed_when: false
   failed_when: nginx_test.rc != 0
 
 - name: reload nginx
+  tags:
+    - geoserver
   command: nginx -s reload
   when: nginx_test.rc == 0
