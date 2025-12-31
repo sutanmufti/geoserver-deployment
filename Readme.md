@@ -58,7 +58,7 @@ You must configure the URL's origin. As this is my repo, I've set it to:
 
 In this case, my geoserver will be deployed on [https://geoserver.sutan.co.uk/geoserver](https://geoserver.sutan.co.uk/geoserver)
 
-Run the playbook
+Run the playbook.
 
 ```bash
 ansible-playbook -i inventory.ini main.yaml
