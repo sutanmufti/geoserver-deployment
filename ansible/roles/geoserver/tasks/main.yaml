@@ -53,4 +53,16 @@
     dest: "/opt/tomcat/latest/webapps/geoserver/WEB-INF/web.xml"
     owner: tomcat
     group: tomcat
-  notify: Restart Tomcat
+  notify: 
+    - Restart Tomcat
+    - nginx changed
+
+- name: validate nginx configuration
+  command: nginx -t
+  register: nginx_test
+  changed_when: false
+  failed_when: nginx_test.rc != 0
+
+- name: reload nginx
+  command: nginx -s reload
+  when: nginx_test.rc == 0
