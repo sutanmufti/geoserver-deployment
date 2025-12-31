@@ -33,7 +33,7 @@ Now let's execute terraform
 terraform apply
 ```
 
-click yes. An IP Address will be printed out and `./ansible/inventory.ini` will be created. There is an IP Address which is the server's public ip address. We will use this to SSH and configure.
+Click Yes. An IP address will be displayed, and ./ansible/inventory.ini will be generated automatically. The printed IP address is the server's public address, which we will use for SSH access and configuration.
 
 Register the IP Address
 
