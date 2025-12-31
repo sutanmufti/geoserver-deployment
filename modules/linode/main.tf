@@ -16,6 +16,6 @@ resource "linode_instance" "web" {
   type            = var.type
   authorized_keys = var.ssh_key
 
-  tags       = []
-  swap_size  = 256
+  tags      = []
+  swap_size = 256
 }

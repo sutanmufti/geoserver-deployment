@@ -1,5 +1,5 @@
 variable "label" {
-  type = string
+  type        = string
   description = "The label of the VM"
-  default = "geoserver-server"
+  default     = "geoserver-server"
 }
