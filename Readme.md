@@ -65,3 +65,10 @@ Run the playbook
 ansible-playbook -i inventory.ini main.yaml
 ```
 
+## Destroying the Resources
+
+standard terraform command.
+
+```bash
+terraform destroy
+```
