@@ -25,31 +25,9 @@
     group: www-data
     mode: '0755'
   notify: nginx changed
-  
-# - name: Ensure ACME challenge directory exists
-#   ansible.builtin.file:
-#     path: /var/www/letsencrypt/.well-known/acme-challenge
-#     state: directory
-#     owner: www-data
-#     group: www-data
-#     mode: '0755'
-#   notify: nginx changed
 
 - name: reload nginx
   command: nginx -s reload
-
-# - name: Obtain Let's Encrypt certificate (webroot)
-#   ansible.builtin.command: >
-#     certbot certonly
-#     --webroot
-#     -w /var/www/letsencrypt
-#     -d {{ site_name }}
-#     --non-interactive
-#     --agree-tos
-#     -m {{ email }}
-#   args:
-#     creates: /etc/letsencrypt/live/{{ site_name }}/fullchain.pem
-
 
 - name: Obtain Let's Encrypt certificate (webroot)
   ansible.builtin.command: >
