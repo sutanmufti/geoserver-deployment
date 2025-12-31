@@ -4,7 +4,7 @@ This repo is an example of how to deploy geoserver to a linode server using Terr
 
 The purpose is to demonstrate that server provision and management for Geospatial Data Science should not be done with ClickOps. Instead, it must be done with IaaC and configuration files so that processes and changes can be tracked. This ensures auditability.
 
-## Requirements
+## Requirements
 
 Install terraform and ansible.
 
