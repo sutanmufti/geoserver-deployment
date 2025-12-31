@@ -1,20 +1,3 @@
-- name: Deploy the HTTPS config
-  become: true
-  ansible.builtin.template:
-    src: https.conf.j2
-    dest: "/etc/nginx/sites-available/https_config"
-    owner: root
-    group: root
-    mode: '0640'
-
-- name: Enable nginx site
-  become: true
-  ansible.builtin.file:
-    src: "/etc/nginx/sites-available/https_config"
-    dest: "/etc/nginx/sites-enabled/https_config"
-    state: link
-  notify: nginx changed
-
 - name: Remove default site symlink
   ansible.builtin.file:
     path: /etc/nginx/sites-enabled/default
@@ -43,31 +26,56 @@
     mode: '0755'
   notify: nginx changed
   
-- name: Ensure ACME challenge directory exists
-  ansible.builtin.file:
-    path: /var/www/letsencrypt/.well-known/acme-challenge
-    state: directory
-    owner: www-data
-    group: www-data
-    mode: '0755'
+# - name: Ensure ACME challenge directory exists
+#   ansible.builtin.file:
+#     path: /var/www/letsencrypt/.well-known/acme-challenge
+#     state: directory
+#     owner: www-data
+#     group: www-data
+#     mode: '0755'
+#   notify: nginx changed
 
-- name: Reload nginx to apply ACME config
-  ansible.builtin.service:
-    name: nginx
-    state: reloaded
+- name: reload nginx
+  command: nginx -s reload
+
+# - name: Obtain Let's Encrypt certificate (webroot)
+#   ansible.builtin.command: >
+#     certbot certonly
+#     --webroot
+#     -w /var/www/letsencrypt
+#     -d {{ site_name }}
+#     --non-interactive
+#     --agree-tos
+#     -m {{ email }}
+#   args:
+#     creates: /etc/letsencrypt/live/{{ site_name }}/fullchain.pem
+
 
 - name: Obtain Let's Encrypt certificate (webroot)
   ansible.builtin.command: >
-    certbot certonly
-    --webroot
-    -w /var/www/letsencrypt
-    -d {{ site_name }}
-    --non-interactive
-    --agree-tos
+    certbot certonly --webroot \
+    -w /var/www/letsencrypt \
+    -d {{ site_name }} \
+    --non-interactive \
+    --agree-tos \
     -m {{ email }}
   args:
     creates: /etc/letsencrypt/live/{{ site_name }}/fullchain.pem
+
+- name: Deploy the HTTPS config
+  become: true
+  ansible.builtin.template:
+    src: https.conf.j2
+    dest: "/etc/nginx/sites-available/https_config"
+    owner: root
+    group: root
+    mode: '0640'
+
+- name: Enable nginx site
+  become: true
+  ansible.builtin.file:
+    src: "/etc/nginx/sites-available/https_config"
+    dest: "/etc/nginx/sites-enabled/https_config"
+    state: link
   notify: nginx changed
-
-
 

@@ -64,3 +64,5 @@ __pycache__/
 *.swp
 *.tmp
 *.retry
+
+/ansible/inventory.ini

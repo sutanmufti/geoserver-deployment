@@ -1,15 +1,12 @@
 server {
     listen 80 default_server;
     listen [::]:80 default_server;
-    server_name geoserver.sutan.co.uk;
-
-    # Directory used by Certbot to verify the domain
+    server_name {{ site_name }};
+    
     root /var/www/letsencrypt;
-
-    location /.well-known/acme-challenge/ {
+    location ^~ /.well-known/acme-challenge/ {
+        default_type "text/plain";
         root /var/www/letsencrypt;
     }
-
-    # Optional: Redirect everything else to HTTPS (only after cert installed)
-    return 301 https://$host$request_uri;
+    #return 301 https://$host$request_uri;
 }
