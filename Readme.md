@@ -1,5 +1,8 @@
 # Deploying Geoserver on Linode
 
+[![Ansible Lint](https://github.com/sutanmufti/geoserver-deployment/actions/workflows/ansible-lint.yml/badge.svg)](https://github.com/sutanmufti/geoserver-deployment/actions/workflows/ansible-lint.yml)
+[![Terraform Format Check](https://github.com/sutanmufti/geoserver-deployment/actions/workflows/terraform-fmt.yml/badge.svg)](https://github.com/sutanmufti/geoserver-deployment/actions/workflows/terraform-fmt.yml)
+
 This repo is an example of how to deploy geoserver on a linode server using Terraform and ansible.
 
 The purpose is to demonstrate that server provision and management for Geospatial Data Science should not be done with ClickOps. Instead, it must be done with IaaC and configuration files so that processes and changes can be tracked. This ensures auditability.
