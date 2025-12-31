@@ -33,6 +33,12 @@
     remote_src: yes
   notify: Restart Tomcat
 
+- name: Restart Tomcat service
+  ansible.builtin.systemd:
+    name: tomcat
+    state: restarted
+    enabled: yes
+
 - name: Copy Geoserver Config 
   ansible.builtin.template:
     src: global.xml.j2
